@@ -101,13 +101,13 @@ public class Matrix {
             throw new IllegalArgumentException("A multiplicacao nao pode ser feita");
         }
         int linhas1 = this.getRows();
-        int colunas1 = this.getColumns(); 
+        int linhas2 = m.getRows();
         int colunas2 = m.getColumns();
         double[][] produtoMatriz = new double[linhas1][colunas2];
 
         for (int i = 0; i < linhas1; i++) {
             for (int j = 0; j < colunas2; j++){
-                for (int k = 0; k < colunas1; k++){
+                for (int k = 0; k < linhas2; k++){
                     produtoMatriz[i][j] += this.getAt(i, k) * m.getAt(k, j);
                 }
             }
@@ -133,31 +133,18 @@ public class Matrix {
     }
     
     public boolean isSymmetric() {
+        if (this.getRows() != this.getColumns()) {
+            return false;
+        }
         int linhas = this.getRows();
         int colunas = this.getColumns();
-        Matrix transposta = getTranspose();
         for (int i = 0; i < linhas; i++) {
             for (int j = 0; j < colunas; j++){
-                if (transposta.getAt(i, j) != this.getAt(i, j)) {
+                if (this.getAt(j, i) != this.getAt(i, j)) {
                     return false;
                 }
             }
         }
         return true;
-    }
-
-    public static void main(String[] args) {
-        Matrix a = new Matrix(new double[][] {
-            {1.0, 2.0, 3.0},
-            {3.0, 4.0, 5.0}
-          });
-          Matrix b = new Matrix(new double[][] {
-            {1.0, 2.0},
-            {3.0, 4.0},
-            {5.0, 6.0}
-          });
-          Matrix c = a.times(b);
-          
-          System.out.print(c.toString());
     }
 }
